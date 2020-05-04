@@ -108,13 +108,8 @@ for i = 1:length(positions)
             terminator_properties(counter).upstream_sequence = RCsequence(genome(positions(i):(positions(i)+max(lengths_folded)-1)));
         end
         
-        
-%         [gene_upstream, gene_downstream] = get_upstream_gene_v2(positions(i),forward_bool,...
-%             gene_names, strand, start, stop);
         ind = ind_best_hairpin(i);
         terminator_properties(counter).folded_seq_id = i;
-%         terminator_properties(counter).gene_upstream = gene_upstream;
-%         terminator_properties(counter).gene_downstream = gene_downstream;
         terminator_properties(counter).RNA_structure = hairpin_param(i,ind).mountain_var;
         terminator_properties(counter).n_bp = n_bp(i,ind);
         terminator_properties(counter).loop = loop_size(i,ind);

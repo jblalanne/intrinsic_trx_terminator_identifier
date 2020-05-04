@@ -62,55 +62,13 @@ for i = 1:length(genome)
             [folding_directory sprintf('/seq_%d_region_%d',i,j)],...
             lower_n, upper_n,lengths_folded);
         
-%         % combining important variables
-%         terminator_properties{i}{j} = [terminator_properties_f{i}{j} terminator_properties_r{i}{j}];
-%         stem_to_stop{i}{j} = [final_stem_to_stop_f{i}{j}' final_stem_to_stop_r{i}{j}']; 
-        
-%         
-%         n_U_pos = 0;
-%         for l = 1:length(positions_U_r{i}{j})
-%             n_U_pos = n_U_pos + length(positions_U_r{i}{j}{l});
-%         end
-%      
-%         if n_U_pos>0
-%             
-%             % summary figure for each sequence and region plotting hairpin properties & cut
-%             GC_content = sum(genome{i}=='C' | genome{i}=='G')/length(genome{i});
-%             plot_hairpin_properties_v2(all_hairpin_param_f{i}{j},all_hairpin_param_r{i}{j},...
-%                 terminator_properties_f{i}{j},terminator_properties_r{i}{j}, cut,...
-%                 species,i,j,full_genome_descriptor,GC_content,...
-%                 final_stem_to_stop_f{i}{j},final_stem_to_stop_r{i}{j},now_str);
-%         end
-
     end
 end
 
 
-
 % saving final variables
-% save(sprintf('putative_terminators_%s_%s_%s.mat',species,short_species_name,now_str),'terminator_properties','stem_to_stop')
 save(sprintf('all_U_rich_upstream_RNA_fold_properties_%s_%s_%s.mat',species,short_species_name,now_str),...
     'all_hairpin_param_f','all_hairpin_param_r');
-
-% 
-% % writing final report
-% print_summary_report_stem_stop(now_str,genome,species,...
-%     full_genome_descriptor,terminator_properties_f,terminator_properties_r,...
-%     all_hairpin_param_f,all_hairpin_param_r)
-% 
-% 
-% % plot full summary combining all regions from genomic element >f_cut*(size
-% % of maximum element).
-% f_cut = 0.25;
-% generate_combined_summary_plot(species,short_species_name,genome,positions_U_f,cut,...
-%     summary_plot_dir,f_cut,all_hairpin_param_f,all_hairpin_param_r,...
-%     terminator_properties_f,terminator_properties_r,...
-%     final_stem_to_stop_f,final_stem_to_stop_r,now_str,ind_species);
-% 
-
-
-% troubleshooting purposes
-%  plot_hairpin_properties_by_strand(all_hairpin_param_f,all_hairpin_param_r,cut);
 
 
 cd(folding_directory)

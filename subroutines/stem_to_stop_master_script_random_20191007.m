@@ -7,7 +7,6 @@ function stem_to_stop_master_script_random_20191007(ind_species,species,...
 %% get U rich positions
 
 % nucleotide_oi = 2; % A:1, T:2, C:3, G: 4
-% 
 
 [genome, full_genome_descriptor,short_genome_descriptor] = get_genomes_fna(dir_fasta,files_fasta(ind_species).name);
 fprintf('Done reading genome %s\n',files_fasta(ind_species).name);

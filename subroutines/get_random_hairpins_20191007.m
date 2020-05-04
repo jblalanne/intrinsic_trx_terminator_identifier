@@ -89,9 +89,6 @@ save(sprintf('random_position_RNA_fold_properties_s_%s_%s_%s.mat',species,short_
     'MFE','n_bp','loop_size','fraction_in_stem','n_hairpin');
 
 
-% troubleshooting purposes
-%  plot_hairpin_properties_by_strand(all_hairpin_param_f,all_hairpin_param_r,cut);
-
 
 cd(folding_directory)
 cd ..
