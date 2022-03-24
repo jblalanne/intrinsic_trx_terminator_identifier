@@ -8,8 +8,6 @@ cwd = pwd;
 dir_gff = cwd + "/GFFs";
 dir_fasta = cwd + "/genomes_fasta";
 
-disp(dir_gff)
-
 cd(dir_fasta);
 files_fasta = dir('*.fna');
 species = [];
