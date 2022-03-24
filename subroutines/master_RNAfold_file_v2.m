@@ -9,15 +9,6 @@ cwd = pwd;
 system(sprintf('mkdir %s',full_path_directory));
 cd(full_path_directory)
 
-% copying the batch_RNAfold script.
-% The bash script batch_RNAfold.sh calls RNAfold to perform the RNA
-% folding. RNAfold must be locally installed and on the path for the Matlab
-% call of the function to work. The directory in the cp operation below
-% should be replaced by the directory containing the batch_RNAfold.sh
-% file.
-system(sprintf('cp /Users/subroutines/batch_RNAfold.sh %s',...
-    full_path_directory));
-
 % generate subsequences to fold for each positions
 write_batch_RNAfold_sequences(genome,lengths_folded,positions,...
     constraint_bool,consecutive_Us)
@@ -28,7 +19,7 @@ if ~isempty(fas_files)
     
     % fold with RNAfold. Refer to RNAfold instruction if the Matlab call to
     % RNAfold is unsuccessful. 
-    system('bash batch_RNAfold.sh');
+    system('bash ../../../subroutines/batch_RNAfold.sh');
     
     % read free energy data
     MFE = read_RNAfold_results(length(lengths_folded));
