@@ -65,7 +65,6 @@ N_random = 10000;
 failed_species = [];
 
 for i = 1:length(species)
-     
     try
         
         tic
@@ -81,7 +80,16 @@ for i = 1:length(species)
         fprintf(2,'%s', msg)
     end
     pause(2);
+    
+    matfiles = dir('**/*.mat')
+    for j = 1:length(matfiles)
+        output_mat_path = strcat(matfiles(j).folder, "/", matfiles(j).name);
+        matname = strcat(cwd, "/output_mats/", sprintf('%04d', i), "_", matfiles(j).name);
+        movefile(output_mat_path, matname)
+    end
 end
+
+
 
 cd(cwd);
 

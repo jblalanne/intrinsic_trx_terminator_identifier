@@ -73,7 +73,15 @@ for i = 1:length(species)
         fprintf('Time =  %.2f min\n',time_species/60)
     catch
         failed_species(end+1) = i;  % sometimes non-standard characters in genomes can lead script to fail.
+        msg = "Species: " + i + " failed, the error was: " + e.message + newline;
+        fprintf(2,'%s', msg)
     end
+    
+    output_mat = dir('**/*.mat');
+    output_mat_path = strcat(output_mat.folder, "/", output_mat.name);
+    matname = strcat(cwd, "/output_mats/", sprintf('%04d', i), "_", output_mat.name);
+    movefile(output_mat_path, matname)
+   
 end
 
 cd(cwd);
