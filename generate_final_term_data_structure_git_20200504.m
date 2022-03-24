@@ -2,10 +2,10 @@
 cwd = pwd;
 
 % directory below should contains the output of script: parsing_hairpin_data_structures_v2_git_20200504.m
-dir_oi = '/Users/final_stop_to_stem_results/';
+dir_oi = cwd + "/final_stop_to_stem_results/";
 cd(dir_oi);
 
-file_oi = dir('*stop_to_stem_variables*.mat');
+file_oi = dir(cwd + "/final_stop_to_stem_results/*stop_to_stem_variables*.mat");
 % an example file is included: example_output_variables/0001_GCF_000005825.2_Bacillus_pseudofirmus_stop_to_stem_variables_20191026T163538.mat
 
 stop_to_stem_AND = [];
