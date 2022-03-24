@@ -55,7 +55,7 @@ end
 
 %% get species GC content
 
-sizes_genomes = zeros(2,length(species_gc)*10);
+sizes_genomes = zeros(2,length(species)*10);
 tic
 counter = 1;
 for i = 1:length(species)
