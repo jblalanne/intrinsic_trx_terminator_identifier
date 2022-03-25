@@ -43,6 +43,12 @@ If all goes well, your final results files will appear in a folder called `final
 
 This takes on the order of a few minutes for each bacterial genome. 
 
+Here's a demonstration (took ~3 minutes, video is accelerated in the middle)
+
+
+https://user-images.githubusercontent.com/22749289/160028820-5914aa0d-e04b-477f-8854-395a5731bccf.mp4
+
+
 ## Notes
 
 * On an M1 Macbook with MATLAB 2022a, this pipeline was freezing for me on a plotting step. Downgrading to MATLAB 2019a fixed the problem for me. 
