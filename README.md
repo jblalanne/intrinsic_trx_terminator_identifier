@@ -20,7 +20,7 @@ Output: positions and stop-to-stem distances for putative terminators.
 (See `example_GFF_fasta_files`)
 
 * RNAfold (from the ViennaRNA package).
-* 
+
 By default, the `subroutines/batch_RNAfold.sh` script calls `usr/local/bin/RNAfold` (line 15) to generate RNAfold. If your path to RNAfold differs, you will need to modify that line.
 
 * Various helper functions (included in `/subroutines/` in this repository, just make sure to add them to your MATLAB path)
