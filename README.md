@@ -55,10 +55,10 @@ https://user-images.githubusercontent.com/22749289/160028820-5914aa0d-e04b-477f-
 
 ### Pipeline explanation
 
-`terminator_identification_header_random_sequence_git` runs first, which takes random sequences from the genome and runs those through RNAfold to generate a baseline for the number of hairpins you would see by chance.
+`terminator_identification_header_random` runs first, which takes random sequences from the genome and runs those through RNAfold to generate a baseline for the number of hairpins you would see by chance.
 
-Then, `terminator_identification_header_script_v4_git` takes sequences downstream of T-rich regions (U-tracts) and runs RNAfold to generate hairpin characteristics.
+Then, `terminator_identification_header_us` takes sequences downstream of T-rich regions (U-tracts) and runs RNAfold to generate hairpin characteristics.
 
-The amount of hairpins you would see by chance is dependent on GC content, so `get_genome_annotations_GC_content_git` computs genome-wide characteristics to control by.
+The amount of hairpins you would see by chance is dependent on GC content, so `get_genome_annotations_GC_content` computs genome-wide characteristics to control by.
 
-Finally, `parsing_hairpin_data_structures` and `generate_final_term_data_structure` parses the previously-generated MATLAB variables into an easy-to-export format. 
+Finally, `parsing_hairpin_data_structures` and `generate_final_term_data_structure` parse the previously-generated MATLAB variables into an easy-to-export format. 
