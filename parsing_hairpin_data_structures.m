@@ -3,8 +3,12 @@
 %% list of genome sequence and annotation files
 
 cwd = pwd;
-dir_gff = '/Users/jbl/Documents/MIT/research/D1/trx_trl_coupling/basic_bioinformatics/RefSeq_representative_reference_genomes/GFFs';
-dir_fasta = '/Users/jbl/Documents/MIT/research/D1/trx_trl_coupling/basic_bioinformatics/RefSeq_representative_reference_genomes/genomes_fasta';
+
+% the pipeline should be compatible with .fna and .gff files downloaded
+% from NCBI for a species of interest. The directories below should be
+% replaced with the full path to the directories containing these files.
+dir_gff = cwd + "/GFFs";
+dir_fasta = cwd + "/genomes_fasta";
 
 cd(dir_fasta);
 files_fasta = dir('*.fna');
@@ -23,25 +27,29 @@ files_gff = dir('*.gff');
 cd(cwd);
 
 
+%% result files from using terminator_identification_header_random_sequence_git_20200504.m
+% directory below should be replaced with directory containing the output from terminator_identification_header_random_sequence_git_20200504.m
+% an example file is included: example_output_variables/0001_random_position_RNA_fold_properties_GCF_000005825.2_Bacillus_pseudofirmus_20191007T165343.mat
+files_rand = dir(cwd + "/output_mats/" + "*random_position*.mat");
 
-%%
-
-files_rand = dir('/Users/jbl/Documents/MIT/research/D1/trx_trl_coupling/basic_bioinformatics/random_position_folding_Refseq_20191011/data_random_folding/*random_position*.mat');
-files_U = dir('/Users/jbl/Documents/MIT/research/D1/trx_trl_coupling/basic_bioinformatics/U_rich_folded_Refseq_v4_20191021/*all_U_rich_*.mat');
-
-% GC content
-load('Refseq_GC_content_20191002.mat');
-% genome and gene annotations
-
-%%
-% genomes and gene annotations
-load('genomes_gene_annotations_Refseq_20191017.mat');
+%% result filres from using terminator_identification_header_script_v4_git_20200504.m
+% directory below should be replaced with directory containing the output from terminator_identification_header_script_v4_git_20200504.m
+% an example file is included: example_output_variables/0001_all_U_rich_upstream_RNA_fold_properties_GCF_000005825.2_Bacillus_pseudofirmus_20191017T195724.mat
+files_U = dir(cwd + "/output_mats/" + "*all_U_rich*.mat");
 
 
+%% parsing the candidate terminator structures
+% performing thresholding on hairpin parameters based on result of folding random regions in genome.
 
-%%
+% NEED TO RUN THE ANNOTATION PARSING SCRIPT FOR SPECIES PRIOR TO RUNNING THIS PORTION: see get_genome_annotations_GC_content_git_20200504.m
 
-dir_final = '/Users/jbl/Documents/MIT/research/D1/trx_trl_coupling/basic_bioinformatics/final_stop_to_stem_pipeline_20191026';
+
+% this will be the directory where final results are saved
+dir_final = cwd + "/final_stop_to_stem_results";
+if ~exist(dir_final, 'dir')
+    mkdir(dir_final)
+end
+
 cd(dir_final);
 
 
@@ -57,7 +65,7 @@ file_name_U = [files_U(ind_oi).folder '/' files_U(ind_oi).name];
 file_name_rand = [files_rand(ind_oi).folder '/' files_rand(ind_oi).name];
 
 ind1 = regexp(files_U(ind_oi).name,'GCF_');
-ind2 = regexp(files_U(ind_oi).name,'_2019')-1;
+ind2 = regexp(files_U(ind_oi).name,"_2")-1;
 species_name = files_U(ind_oi).name(ind1:ind2);
 ind1 = regexp(species_name,'_');
 GCF_name = species_name(1:(ind1(2)-1));
@@ -69,7 +77,6 @@ genome = genomes{ind_oi};
 start = starts{ind_oi};
 stop = stops{ind_oi};
 strand = strands{ind_oi};
-
 
 
 % % % % % % % % % % % % % % % 
@@ -119,7 +126,7 @@ plot_bool = 0;
 % % % % % % % % % % % % % % % % % % 
 % obtaining stop-to-stem distance %
 % % % % % % % % % % % % % % % % % % 
-f_genome_cut = 0.05;
+f_genome_cut = 0.05;        % excluding terminators from sequence element smaller than f_genome_cut fraction of largest sequence element.
 tic
 stop_to_stem = get_stop_to_stem_20191025(...
     U_rich_hairpins,start,stop,strand,genome,bool_cuts,f_genome_cut);

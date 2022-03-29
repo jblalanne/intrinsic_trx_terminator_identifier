@@ -5,8 +5,8 @@ cwd = pwd;
 % the pipeline should be compatible with .fna and .gff files downloaded
 % from NCBI for a species of interest. The directories below should be
 % replaced with the full path to the directories containing these files.
-dir_gff = '/Users/GFFs';
-dir_fasta = '/Users/genomes_fasta';
+dir_gff = cwd + "/GFFs";
+dir_fasta = cwd + "/genomes_fasta";
 
 cd(dir_fasta);
 files_fasta = dir('*.fna');
@@ -55,7 +55,7 @@ end
 
 %% get species GC content
 
-sizes_genomes = zeros(2,length(species_gc)*10);
+sizes_genomes = zeros(2,length(species)*10);
 tic
 counter = 1;
 for i = 1:length(species)

@@ -5,9 +5,8 @@ cwd = pwd;
 % the pipeline should be compatible with .fna and .gff files downloaded
 % from NCBI for a species of interest. The directories below should be
 % replaced with the full path to the directories containing these files.
-dir_gff = '/Users/GFFs';
-dir_fasta = '/Users/genomes_fasta';
-
+dir_gff = cwd + "/GFFs";
+dir_fasta = cwd + "/genomes_fasta";
 
 cd(dir_fasta);
 files_fasta = dir('*.fna');
@@ -66,7 +65,6 @@ N_random = 10000;
 failed_species = [];
 
 for i = 1:length(species)
-     
     try
         
         tic
@@ -76,11 +74,22 @@ for i = 1:length(species)
             f_pass_random)
         time_species = toc;
         fprintf('Time =  %.2f min\n',time_species/60)
-    catch
+    catch e
         failed_species(end+1) = i;
+        msg = "Species: " + i + " failed, the error was: " + e.message + newline;
+        fprintf(2,'%s', msg)
     end
     pause(2);
+    
+    matfiles = dir('**/*.mat')
+    for j = 1:length(matfiles)
+        output_mat_path = strcat(matfiles(j).folder, "/", matfiles(j).name);
+        matname = strcat(cwd, "/output_mats/", sprintf('%04d', i), "_", matfiles(j).name);
+        movefile(output_mat_path, matname)
+    end
 end
+
+
 
 cd(cwd);
 

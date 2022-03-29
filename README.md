@@ -2,8 +2,63 @@
 
 These scripts identify putative intrinsic terminators by looking for long stretches of Ts downstream (corresponding to U-tracts) of genes preceeded by strong and clean RNA hairpins. 
 
-The pipeline takes in .fna (genome sequence) and .gff (gene annotation) files (examples for Bacillus pseudofirmus included in example_GFF_fasta_files), and output positions and stop-to-stem distances for putative terminators. 
+These scripts were used to generate data for [Johnson and Lalanne et al. 2020, Nature](https://www.nature.com/articles/s41586-020-2638-5).
 
-RNAfold must be installed. The Matlab script calls RNAfold and reads output directly. Other dependencies are in the subroutines directory. The directory path to batch_RNAfold.txt in line 18 of master_RNAfold_file_v2.m will also need to be updated.
+For more information or if you have any questions, post an issue to this repository or get in touch with the [Li Lab](http://gwli.scripts.mit.edu/group/). 
 
-To run the script, first run terminator_identification_header_script_v4_git_20200504.m and terminator_identification_header_random_sequence_git_20200504.m. These respectively identify putative RNA hairpins upstream of Ts close to ORFs, and fold random positions in the genome. To threshold on hairpins parameters using the output of the two above scripts and generate a list of putative terminators, parsing_hairpin_data_structures_v2_git_20200504.m must be run. To parse the final data structure, generate_final_term_data_structure_git_20200504.m can be used. Example of data variable output for Bacillus pseudofirmus can be found in example_output_variables. The script get_genome_annotations_GC_content_git_20200504.m to read annotations from .gff files must be run as indicated prior to executing parsing_hairpin_data_structures_v2_git_20200504.m and generate_final_term_data_structure_git_20200504.m.
+## Input and Output
+
+Input: genome sequence(s) and annotation(s)
+
+Output: positions and stop-to-stem distances for putative terminators.
+
+## Prerequisities 
+
+* A genome sequence (.fna)
+* A genome annotation (.gff)
+
+(See `example_GFF_fasta_files`)
+
+* RNAfold (from the ViennaRNA package).
+
+By default, the `subroutines/batch_RNAfold.sh` script calls `usr/local/bin/RNAfold` (line 15) to generate RNAfold. If your path to RNAfold differs, you will need to modify that line.
+
+* Various helper functions (included in `/subroutines/` in this repository, just make sure to add them to your MATLAB path)
+
+* MATLAB + Signal Processing Toolbox + Statistics and Machine Learning Toolbox
+
+The `findpeaks` command requires the signal processing toolbox.
+
+The `hist3` command requires the statistics and machine learning toolbox.
+
+## Running
+
+First, put your .fna genome sequence(s) in the `genomes_fasta` folder. 
+
+Then, put your .gff genome annotation(s) in the `GFFs` folder.
+
+Then, run `run_pipeline.m` (or type `run_pipeline` in the MATLAB command line).
+
+If all goes well, your final results files will appear in a folder called `final_stop_to_stem_results`.
+
+This takes on the order of a few minutes for each bacterial genome. 
+
+Here's a demonstration (took ~3 minutes, video is accelerated in the middle)
+
+
+https://user-images.githubusercontent.com/22749289/160028820-5914aa0d-e04b-477f-8854-395a5731bccf.mp4
+
+
+## Notes
+
+* On an M1 Macbook with MATLAB 2022a, this pipeline was freezing for me on a plotting step. Downgrading to MATLAB 2019a fixed the problem for me. 
+
+### Pipeline explanation
+
+`terminator_identification_header_random` runs first, which takes random sequences from the genome and runs those through RNAfold to generate a baseline for the number of hairpins you would see by chance.
+
+Then, `terminator_identification_header_us` takes sequences downstream of T-rich regions (U-tracts) and runs RNAfold to generate hairpin characteristics.
+
+The amount of hairpins you would see by chance is dependent on GC content, so `get_genome_annotations_GC_content` computs genome-wide characteristics to control by.
+
+Finally, `parsing_hairpin_data_structures` and `generate_final_term_data_structure` parse the previously-generated MATLAB variables into an easy-to-export format. 
